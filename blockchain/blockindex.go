@@ -20,13 +20,6 @@ import (
 	"github.com/decred/dcrd/wire"
 )
 
-// VoteVersionTuple contains the extracted vote bits and version from votes
-// (SSGen).
-type VoteVersionTuple struct {
-	Version uint32
-	Bits    uint16
-}
-
 // blockNode represents a block within the block chain and is primarily used to
 // aid in selecting the best chain to be the main chain.  The main chain is
 // stored into the block database.
@@ -411,7 +404,7 @@ func (bi *blockIndex) AncestorNode(node *blockNode, height int64) (*blockNode, e
 		var err error
 		iterNode, err = bi.prevNodeFromNode(iterNode)
 		if err != nil {
-			log.Errorf("getPrevNodeFromNode: %v", err)
+			log.Errorf("prevNodeFromNode: %v", err)
 			return nil, err
 		}
 	}
@@ -473,7 +466,7 @@ func (bi *blockIndex) CalcPastMedianTime(startNode *blockNode) (time.Time, error
 		iterNode, err = bi.prevNodeFromNode(iterNode)
 		if err != nil {
 			bi.Unlock()
-			log.Errorf("getPrevNodeFromNode failed to find node: %v", err)
+			log.Errorf("prevNodeFromNode failed to find node: %v", err)
 			return time.Time{}, err
 		}
 	}
